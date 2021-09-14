@@ -1,0 +1,10 @@
+header,
+.deck-input {
+  font-size: 2em;
+  margin-left: 30%;
+  width: fit-content;
+}
+
+.deck-input {
+  display: grid;
+}

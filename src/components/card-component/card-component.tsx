@@ -1,25 +1,30 @@
-import React, { Component } from 'react';
-import './card-component.css';
-import { getCard, getDeck } from '../../services/card-service';
+import React, { Component } from "react";
+import "./card-component.css";
+import { getCard } from "../../services/card-service";
 
 interface CardProps {
   id: string;
+  count: number;
 }
 
 interface CardState {
   card: any;
 }
 
-class CardComponent extends Component<CardProps,CardState> {
+class CardComponent extends Component<CardProps, CardState> {
   state: CardState = {
-    card: null
+    card: null,
   };
 
   componentDidMount() {
     const { id } = this.props;
-    getDeck(id).then(res => {
+    if (!id) {
+      console.warn("Invalid card id", id);
+      return;
+    }
+    getCard(id).then((res) => {
       this.setState({
-        card: res
+        card: res,
       });
     });
   }
@@ -29,18 +34,12 @@ class CardComponent extends Component<CardProps,CardState> {
       return;
     }
     console.log(info);
-    return(
-      <div>{info.pack_code}</div>
-    )
+    return <div>{info.pack_code}</div>;
   }
 
   render() {
     const { card } = this.state;
-    return (
-      <div className="card-component">
-        {this.showCard(card)}
-      </div>
-    );
+    return <div className="card-component">{this.showCard(card)}</div>;
   }
 }
 

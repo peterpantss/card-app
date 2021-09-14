@@ -1,0 +1,26 @@
+export type Card = {
+  attack: number;
+  code: string;
+  deck_limit: number;
+  defense: number;
+  flavor: string;
+  has_errata: false;
+  health: number;
+  illustrator: string;
+  imagesrc: string;
+  is_unique: true;
+  name: string;
+  octgnid: string;
+  pack_code: string;
+  pack_name: string;
+  position: number;
+  quantity: number;
+  sphere_code: string;
+  sphere_name: string;
+  text: string;
+  threat: number;
+  traits: string;
+  type_code: string;
+  type_name: string;
+  url: string;
+};
