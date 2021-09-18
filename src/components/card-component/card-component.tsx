@@ -1,19 +1,23 @@
 import React, { Component } from "react";
 import "./card-component.css";
 import { getCard } from "../../services/card-service";
+import { IonCard, IonCardContent, IonCol, IonModal } from "@ionic/react";
+import { Card } from "../../types/card";
+import CardDetailModal from "../card-detail-modal/card-detail-modal";
 
 interface CardProps {
   id: string;
-  count: number;
 }
 
 interface CardState {
-  card: any;
+  card: Card | undefined;
+  modalOpen: boolean;
 }
 
 class CardComponent extends Component<CardProps, CardState> {
   state: CardState = {
-    card: null,
+    card: undefined,
+    modalOpen: false,
   };
 
   componentDidMount() {
@@ -29,17 +33,35 @@ class CardComponent extends Component<CardProps, CardState> {
     });
   }
 
-  showCard(info: any) {
-    if (!info) {
-      return;
-    }
-    console.log(info);
-    return <div>{info.pack_code}</div>;
+  openModal(card: Card) {
+    this.setState({
+      modalOpen: true,
+    });
   }
 
   render() {
-    const { card } = this.state;
-    return <div className="card-component">{this.showCard(card)}</div>;
+    const { card, modalOpen } = this.state;
+    if (!card) {
+      return null;
+    }
+    const imageSource = `https://ringsdb.com${card.imagesrc}`;
+    return [
+      <IonCol key={card.code} sizeXs="12" sizeSm="6" sizeLg="4" sizeXl="3">
+        <IonCard onClick={() => this.openModal(card)}>
+          <IonCardContent className="card-content">
+            <img className="card-image" src={imageSource} />
+          </IonCardContent>
+        </IonCard>
+      </IonCol>,
+      <IonModal
+        key={card.code + "-modal"}
+        cssClass="card-modal"
+        isOpen={modalOpen}
+        onDidDismiss={() => this.setState({ modalOpen: false })}
+      >
+        <CardDetailModal card={card}></CardDetailModal>
+      </IonModal>,
+    ];
   }
 }
 

@@ -1,0 +1,14 @@
+.card-image {
+  width: 100%;
+  display: block;
+}
+
+.card-content {
+  padding: 0 !important;
+}
+
+ion-card {
+  border-radius: 5%;
+  box-shadow: 2px 4px 10px 1px;
+  cursor: pointer;
+}

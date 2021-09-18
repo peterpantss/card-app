@@ -1,14 +1,22 @@
 import "./App.css";
+import "@ionic/react/css/core.css";
 import { Component } from "react";
 import CardComponent from "./components/card-component/card-component";
 import { getDeck } from "./services/card-service";
 import { debounce } from "lodash";
-import { Deck } from "./types/deck";
+import { Deck, DeckError } from "./types/deck";
+import { IonRow } from "@ionic/react";
+import { errorMonitor } from "events";
+import { Card } from "./types/card";
 
 interface AppState {
   deckId: string;
   deck: any;
   debouncer: Function;
+  error: {
+    showError: boolean;
+    errorMessage: string | undefined;
+  };
 }
 
 class App extends Component<any, AppState> {
@@ -18,10 +26,13 @@ class App extends Component<any, AppState> {
     debouncer: debounce((deckId) => {
       this.getDeckData(deckId);
     }, 1000),
+    error: {
+      showError: false,
+      errorMessage: undefined,
+    },
   };
 
   onChangeDeckId = (deckId: string) => {
-    console.log(deckId);
     this.setState({
       deckId,
     });
@@ -36,10 +47,18 @@ class App extends Component<any, AppState> {
       });
       return;
     }
-    getDeck(deckId).then((deck) => {
-      this.setState({
-        deck,
-      });
+    getDeck(deckId).then((res: Deck | DeckError) => {
+      res.hasOwnProperty("error")
+        ? this.setState({
+            error: {
+              errorMessage: (res as DeckError).error,
+              showError: true,
+            },
+          })
+        : this.setState({
+            deck: res,
+            error: { showError: false, errorMessage: undefined },
+          });
     });
   };
 
@@ -52,7 +71,7 @@ class App extends Component<any, AppState> {
   }
 
   render() {
-    const { deckId, deck } = this.state;
+    const { deckId, deck, error } = this.state;
     const heroes = this.getHeroes(deck);
     return (
       <div className="app-container">
@@ -61,18 +80,26 @@ class App extends Component<any, AppState> {
           <label>Give deck id</label>
           <input
             type="text"
-            name="test"
             placeholder="deck id"
             onChange={(e) => this.onChangeDeckId(e.target.value)}
             value={deckId}
           ></input>
         </div>
-        <div>
-          {heroes &&
-            Object.keys(heroes)?.map((id: string, i: number) => (
-              <CardComponent id={id} count={i} key={i}></CardComponent>
-            ))}
-        </div>
+        {!error.showError ? (
+          <div>
+            {heroes && <h4>Here are your heroes</h4>}
+            <IonRow>
+              {heroes &&
+                Object.keys(heroes)?.map((id: string, i: number) => (
+                  <CardComponent id={id} key={i}></CardComponent>
+                ))}
+            </IonRow>
+          </div>
+        ) : (
+          <div className="error-message">
+            <p>{error.errorMessage}</p>
+          </div>
+        )}
       </div>
     );
   }

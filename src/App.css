@@ -1,5 +1,4 @@
-header,
-.deck-input {
+header {
   font-size: 2em;
   margin-left: 30%;
   width: fit-content;
@@ -7,4 +6,20 @@ header,
 
 .deck-input {
   display: grid;
+  margin-left: 30%;
+  width: fit-content;
+}
+
+.error-message {
+  color: crimson;
+  text-align: center;
+}
+
+.card-modal > .modal-wrapper {
+  width: 80%;
+  height: 80%;
+}
+
+.app-container {
+  margin: 0 20%;
 }

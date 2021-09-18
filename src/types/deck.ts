@@ -15,3 +15,8 @@ export type Deck = {
 type NumberValuePair = {
   [key: number]: number;
 };
+
+export interface DeckError {
+  success: boolean;
+  error: string;
+}

@@ -23,4 +23,5 @@ export type Card = {
   type_code: string;
   type_name: string;
   url: string;
+  willpower: number;
 };
