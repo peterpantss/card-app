@@ -33,7 +33,7 @@ class CardComponent extends Component<CardProps, CardState> {
     });
   }
 
-  openModal(card: Card) {
+  openModal() {
     this.setState({
       modalOpen: true,
     });
@@ -47,9 +47,9 @@ class CardComponent extends Component<CardProps, CardState> {
     const imageSource = `https://ringsdb.com${card.imagesrc}`;
     return [
       <IonCol key={card.code} sizeXs="12" sizeSm="6" sizeLg="4" sizeXl="3">
-        <IonCard onClick={() => this.openModal(card)}>
+        <IonCard onClick={() => this.openModal()}>
           <IonCardContent className="card-content">
-            <img className="card-image" src={imageSource} />
+            <img alt={card.name} className="card-image" src={imageSource} />
           </IonCardContent>
         </IonCard>
       </IonCol>,

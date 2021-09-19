@@ -6,8 +6,6 @@ import { getDeck } from "./services/card-service";
 import { debounce } from "lodash";
 import { Deck, DeckError } from "./types/deck";
 import { IonRow } from "@ionic/react";
-import { errorMonitor } from "events";
-import { Card } from "./types/card";
 
 interface AppState {
   deckId: string;
@@ -47,8 +45,9 @@ class App extends Component<any, AppState> {
       });
       return;
     }
+
     getDeck(deckId).then((res: Deck | DeckError) => {
-      res.hasOwnProperty("error")
+      res.hasOwnProperty("error") // API doesn't return well enough errors, always 200 OK
         ? this.setState({
             error: {
               errorMessage: (res as DeckError).error,

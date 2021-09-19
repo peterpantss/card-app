@@ -18,13 +18,13 @@ interface CardProps {
   card: Card;
 }
 
-class CardDetailModal extends Component<CardProps, any> {
+class CardDetailModal extends Component<CardProps> {
   dismissModal() {
     modalController.dismiss();
   }
 
   getHeroStat = (name: string, value: number | string) => {
-    let val = value.toString();
+    const val = value.toString();
     return (
       <>
         <h4 style={{ margin: 0 }}>{name}</h4>
@@ -76,22 +76,30 @@ class CardDetailModal extends Component<CardProps, any> {
         </IonHeader>
         <IonContent className="ion-padding">
           <IonRow>
-            <IonCol size="4">
+            <IonCol sizeMd="4" size="8">
               <h3>Hero card</h3>
             </IonCol>
-            <IonCol size="8">
+            <IonCol sizeMd="8" size="4">
               <h3>Hero info</h3>
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol size="4">
+            <IonCol sizeMd="4" size="8">
               <img
-                style={{ width: "100%", borderRadius: "5%" }}
+                alt={card.name}
+                style={{
+                  width: "100%",
+                  borderRadius: "5%",
+                }}
                 src={imageSource}
               ></img>
             </IonCol>
-            <IonCol size="2">{this.getHeroStats(card)}</IonCol>
-            <IonCol size="6">{this.getHeroDetails(card)}</IonCol>
+            <IonCol sizeMd="2" size="4">
+              {this.getHeroStats(card)}
+            </IonCol>
+            <IonCol sizeMd="6" size="12">
+              {this.getHeroDetails(card)}
+            </IonCol>
           </IonRow>
         </IonContent>
       </>
